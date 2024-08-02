@@ -323,7 +323,20 @@ fun Introduction() {
     SelectionContainer {
         val text = buildAnnotatedString {
             withStyle(SpanStyle(color = MaterialTheme.colorScheme.onBackground)) {
-                appendLine("Yuri 是一个通用的聊天协议, 目的是抹除不同聊天协议在使用 Yuro 开发时多余的学习成本, 以一套代码接入任何协议, 让开发者以更低的成本开发出跨平台, 可扩展的聊天应用")
+                append("Yuri 是一个通用的聊天协议, 目的是抹除不同聊天协议在使用 ")
+                withAnnotation(
+                    UrlAnnotation("https://nyaruru-fishy-fight.fandom.com/zh/wiki/%E8%8E%89%E4%BC%8A")
+                ) {
+                    withStyle(
+                        SpanStyle(
+                            color = Color(51, 102, 204),
+                            textDecoration = TextDecoration.Underline
+                        )
+                    ) {
+                        append("Yuro")
+                    }
+                }
+                appendLine(" 开发时多余的学习成本, 以一套代码接入任何协议, 让开发者以更低的成本开发出跨平台, 可扩展的聊天应用")
                 append("Yuri 的名称来源于游戏喵可莉的兔玩偶和咸鱼喵喵中的角色 ")
                 withAnnotation(
                     UrlAnnotation("https://nyaruru-fishy-fight.fandom.com/zh/wiki/%E8%8E%89%E4%BC%8A")
@@ -338,7 +351,20 @@ fun Introduction() {
                     }
                 }
                 appendLine(", 下文中\"她\"指代 Yuri")
-                appendLine("Yuri 是 Satori 的一个特殊分支, 她并非取代 Satori 而是作为 Satori 和 Yuro 间的桥梁, 在 Yuro 上接入 Satori")
+                append("Yuri 是 ")
+                withAnnotation(
+                    UrlAnnotation("https://nyaruru-fishy-fight.fandom.com/zh/wiki/%E8%8E%89%E4%BC%8A")
+                ) {
+                    withStyle(
+                        SpanStyle(
+                            color = Color(51, 102, 204),
+                            textDecoration = TextDecoration.Underline
+                        )
+                    ) {
+                        append("Satori")
+                    }
+                }
+                appendLine(" 在 Yuro 上的特殊实现")
             }
         }
         val uriHandler = LocalUriHandler.current
