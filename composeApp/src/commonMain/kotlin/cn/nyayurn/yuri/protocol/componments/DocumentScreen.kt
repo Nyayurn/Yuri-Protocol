@@ -325,7 +325,7 @@ fun Introduction() {
             withStyle(SpanStyle(color = MaterialTheme.colorScheme.onBackground)) {
                 append("Yuri 是一个通用的聊天协议, 目的是抹除不同聊天协议在使用 ")
                 withAnnotation(
-                    UrlAnnotation("https://nyaruru-fishy-fight.fandom.com/zh/wiki/%E8%8E%89%E4%BC%8A")
+                    UrlAnnotation("https://nyayurn.github.io/Yuro-Standardize/")
                 ) {
                     withStyle(
                         SpanStyle(
@@ -353,7 +353,7 @@ fun Introduction() {
                 appendLine(", 下文中\"她\"指代 Yuri")
                 append("Yuri 是 ")
                 withAnnotation(
-                    UrlAnnotation("https://nyaruru-fishy-fight.fandom.com/zh/wiki/%E8%8E%89%E4%BC%8A")
+                    UrlAnnotation("https://satori.js.org/zh-CN/")
                 ) {
                     withStyle(
                         SpanStyle(
