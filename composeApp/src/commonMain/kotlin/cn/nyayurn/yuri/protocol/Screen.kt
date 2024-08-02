@@ -32,7 +32,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import cafe.adriel.voyager.core.annotation.InternalVoyagerApi
 import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.currentOrThrow
+import cafe.adriel.voyager.navigator.internal.BackHandler
 import cn.nyayurn.yuri.protocol.componments.Body
 import cn.nyayurn.yuri.protocol.componments.Description
 import cn.nyayurn.yuri.protocol.componments.SideNavigation
@@ -61,6 +65,7 @@ object HomeScreen : Screen {
 }
 
 object DocumentScreen : Screen {
+    @OptIn(InternalVoyagerApi::class)
     @Composable
     override fun Content() {
         var page by rememberSaveable { mutableStateOf(DocumentPage.Introduction) }
@@ -129,6 +134,17 @@ object DocumentScreen : Screen {
                     }
                     Body(page = page)
                 }
+            }
+        }
+        // Compose Multiplatform for Web didn't support BackHandler, lol
+        val navigator = LocalNavigator.currentOrThrow
+        BackHandler(true) {
+            if (width != ScreenSize.Expanded && drawerState.isOpen) {
+                scope.launch {
+                    drawerState.close()
+                }
+            } else {
+                navigator.pop()
             }
         }
     }
