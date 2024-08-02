@@ -4,7 +4,7 @@ import cn.nyayurn.yuri.protocol.App
 
 @OptIn(ExperimentalComposeUiApi::class)
 fun main() {
-    CanvasBasedWindow("Yuro-Standardize") {
+    CanvasBasedWindow("Yuri-Protocol") {
         App()
     }
 }
