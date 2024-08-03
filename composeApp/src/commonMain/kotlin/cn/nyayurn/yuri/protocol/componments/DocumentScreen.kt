@@ -297,17 +297,19 @@ fun Body(
             ).value
         )
     ) {
-        Column(
-            verticalArrangement = Arrangement.spacedBy(16.dp),
-            modifier = Modifier.verticalScroll(rememberScrollState())
-        ) {
-            when (it) {
-                DocumentPage.Introduction -> Introduction()
-                DocumentPage.Overview -> Overview()
-                DocumentPage.Action -> Action()
-                DocumentPage.Event -> Event()
-                DocumentPage.Encoding -> Encoding()
-                DocumentPage.Element -> Element()
+        SelectionContainer {
+            Column(
+                verticalArrangement = Arrangement.spacedBy(16.dp),
+                modifier = Modifier.verticalScroll(rememberScrollState())
+            ) {
+                when (it) {
+                    DocumentPage.Introduction -> Introduction()
+                    DocumentPage.Overview -> Overview()
+                    DocumentPage.Action -> Action()
+                    DocumentPage.Event -> Event()
+                    DocumentPage.Encoding -> Encoding()
+                    DocumentPage.Element -> Element()
+                }
             }
         }
     }
@@ -320,62 +322,60 @@ fun Introduction() {
         text = "介绍",
         style = MaterialTheme.typography.titleLarge
     )
-    SelectionContainer {
-        val text = buildAnnotatedString {
-            withStyle(SpanStyle(color = MaterialTheme.colorScheme.onBackground)) {
-                append("Yuri 是一个通用的聊天协议, 目的是抹除不同聊天协议在使用 ")
-                withAnnotation(
-                    UrlAnnotation("https://nyayurn.github.io/Yuro-Standardize/")
+    val text = buildAnnotatedString {
+        withStyle(SpanStyle(color = MaterialTheme.colorScheme.onBackground)) {
+            append("Yuri 是一个通用的聊天协议, 目的是抹除不同聊天协议在使用 ")
+            withAnnotation(
+                UrlAnnotation("https://nyayurn.github.io/Yuro-Standardize/")
+            ) {
+                withStyle(
+                    SpanStyle(
+                        color = Color(51, 102, 204),
+                        textDecoration = TextDecoration.Underline
+                    )
                 ) {
-                    withStyle(
-                        SpanStyle(
-                            color = Color(51, 102, 204),
-                            textDecoration = TextDecoration.Underline
-                        )
-                    ) {
-                        append("Yuro")
-                    }
+                    append("Yuro")
                 }
-                appendLine(" 开发时多余的学习成本, 以一套代码接入任何协议, 让开发者以更低的成本开发出跨平台, 可扩展的聊天应用")
-                append("Yuri 的名称来源于游戏喵可莉的兔玩偶和咸鱼喵喵中的角色 ")
-                withAnnotation(
-                    UrlAnnotation("https://nyaruru-fishy-fight.fandom.com/zh/wiki/%E8%8E%89%E4%BC%8A")
-                ) {
-                    withStyle(
-                        SpanStyle(
-                            color = Color(51, 102, 204),
-                            textDecoration = TextDecoration.Underline
-                        )
-                    ) {
-                        append("莉伊(Yuri)")
-                    }
-                }
-                appendLine(", 下文中\"她\"指代 Yuri")
-                append("Yuri 是 ")
-                withAnnotation(
-                    UrlAnnotation("https://satori.js.org/zh-CN/")
-                ) {
-                    withStyle(
-                        SpanStyle(
-                            color = Color(51, 102, 204),
-                            textDecoration = TextDecoration.Underline
-                        )
-                    ) {
-                        append("Satori")
-                    }
-                }
-                appendLine(" 在 Yuro 上的特殊实现")
             }
+            appendLine(" 开发时多余的学习成本, 以一套代码接入任何协议, 让开发者以更低的成本开发出跨平台, 可扩展的聊天应用")
+            append("Yuri 的名称来源于游戏喵可莉的兔玩偶和咸鱼喵喵中的角色 ")
+            withAnnotation(
+                UrlAnnotation("https://nyaruru-fishy-fight.fandom.com/zh/wiki/%E8%8E%89%E4%BC%8A")
+            ) {
+                withStyle(
+                    SpanStyle(
+                        color = Color(51, 102, 204),
+                        textDecoration = TextDecoration.Underline
+                    )
+                ) {
+                    append("莉伊(Yuri)")
+                }
+            }
+            appendLine(", 下文中\"她\"指代 Yuri")
+            append("Yuri 是 ")
+            withAnnotation(
+                UrlAnnotation("https://satori.js.org/zh-CN/")
+            ) {
+                withStyle(
+                    SpanStyle(
+                        color = Color(51, 102, 204),
+                        textDecoration = TextDecoration.Underline
+                    )
+                ) {
+                    append("Satori")
+                }
+            }
+            appendLine(" 在 Yuro 上的特殊实现")
         }
-        val uriHandler = LocalUriHandler.current
-        ClickableText(
-            text = text,
-            style = MaterialTheme.typography.bodyLarge
-        ) { offset ->
-            text.getUrlAnnotations(offset, offset).firstOrNull { annotation ->
-                uriHandler.openUri(annotation.item.url)
-                true
-            }
+    }
+    val uriHandler = LocalUriHandler.current
+    ClickableText(
+        text = text,
+        style = MaterialTheme.typography.bodyLarge
+    ) { offset ->
+        text.getUrlAnnotations(offset, offset).firstOrNull { annotation ->
+            uriHandler.openUri(annotation.item.url)
+            true
         }
     }
 }
@@ -386,16 +386,14 @@ fun Overview() {
         text = "总览",
         style = MaterialTheme.typography.titleLarge
     )
-    SelectionContainer {
-        Text(
-            text = buildString {
-                appendLine("Yuri 的通信分为两块:")
-                appendLine("事件动作(Event Action): 一套使用 HTTP 的 API 服务, 用于发送事件")
-                append("事件流(Event Stream): 一个使用 ServerSendEvent/WebSocket/WebHook 的消息下发服务, 用于持续接收事件")
-            },
-            style = MaterialTheme.typography.bodyLarge
-        )
-    }
+    Text(
+        text = buildString {
+            appendLine("Yuri 的通信分为两块:")
+            appendLine("事件动作(Event Action): 一套使用 HTTP 的 API 服务, 用于发送事件")
+            append("事件流(Event Stream): 一个使用 ServerSendEvent/WebSocket/WebHook 的消息下发服务, 用于持续接收事件")
+        },
+        style = MaterialTheme.typography.bodyLarge
+    )
     HorizontalDivider()
     Text(
         text = "核心概念",
