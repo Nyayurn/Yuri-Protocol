@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.DrawerValue
@@ -56,8 +57,15 @@ object HomeScreen : Screen {
                 verticalArrangement = Arrangement.spacedBy(32.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Title()
-                Description()
+                SelectionContainer {
+                    Column(
+                        verticalArrangement = Arrangement.spacedBy(32.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Title()
+                        Description()
+                    }
+                }
                 Start()
             }
         }
