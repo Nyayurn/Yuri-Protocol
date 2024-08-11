@@ -49,8 +49,7 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import cn.nyayurn.yuri.protocol.DocumentPage
 import cn.nyayurn.yuri.protocol.ScreenSize
-import cn.nyayurn.yuri.protocol.YuroViewModel
-import cn.nyayurn.yuri.protocol.theme.darkTheme
+import cn.nyayurn.yuri.protocol.YuriViewModel
 import org.jetbrains.compose.resources.painterResource
 import yuri_protocol.composeapp.generated.resources.Res
 import yuri_protocol.composeapp.generated.resources.dark_mode_24px
@@ -63,9 +62,9 @@ import yuri_protocol.composeapp.generated.resources.translate
 fun SideNavigation(
     page: DocumentPage,
     onChange: (DocumentPage) -> Unit,
-    viewModel: YuroViewModel = viewModel(),
     modifier: Modifier = Modifier
 ) {
+    val viewModel = viewModel<YuriViewModel>()
     val (_, height) = viewModel.screen.size
     Surface(
         shape = RoundedCornerShape(topEnd = 32.dp, bottomEnd = 32.dp),
@@ -104,7 +103,7 @@ fun SideNavigation(
                 },
                 state = rememberTooltipState()
             ) {
-                TextButton(onClick = { navigator.popUntilRoot() }) {
+                TextButton(onClick = { navigator.pop() }) {
                     Text(
                         text = "Yuri",
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -237,12 +236,13 @@ fun BottomBar(modifier: Modifier = Modifier) {
             },
             state = rememberTooltipState()
         ) {
+            val viewModel = viewModel<YuriViewModel>()
             Switch(
-                checked = darkTheme,
-                onCheckedChange = { darkTheme = it },
+                checked = viewModel.darkMode,
+                onCheckedChange = { viewModel.darkMode = it },
                 thumbContent = {
                     when {
-                        darkTheme -> Icon(
+                        viewModel.darkMode -> Icon(
                             painter = painterResource(Res.drawable.dark_mode_24px),
                             contentDescription = null
                         )
@@ -279,11 +279,8 @@ fun BottomBar(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun Body(
-    page: DocumentPage,
-    viewModel: YuroViewModel = viewModel(),
-    modifier: Modifier = Modifier
-) {
+fun Body(page: DocumentPage, modifier: Modifier = Modifier) {
+    val viewModel = viewModel<YuriViewModel>()
     val (width, _) = viewModel.screen.size
     AnimatedContent(
         targetState = page,

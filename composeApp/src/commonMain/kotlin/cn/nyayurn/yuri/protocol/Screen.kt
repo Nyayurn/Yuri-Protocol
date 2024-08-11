@@ -10,11 +10,11 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -46,12 +46,31 @@ import cn.nyayurn.yuri.protocol.componments.Title
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
+object LoadingScreen : Screen {
+    @Composable
+    override fun Content() {
+        Box(
+            contentAlignment = Alignment.Center,
+            modifier = Modifier.fillMaxSize()
+        ) {
+            CircularProgressIndicator(
+                modifier = Modifier.width(64.dp)
+            )
+        }
+        val viewModel = viewModel<YuriViewModel>()
+        val navigator = LocalNavigator.currentOrThrow
+        remember(viewModel.fontLoaded) {
+            if (viewModel.fontLoaded) navigator.push(HomeScreen)
+        }
+    }
+}
+
 object HomeScreen : Screen {
     @Composable
     override fun Content() {
         Box(
             contentAlignment = Alignment.Center,
-            modifier = Modifier.fillMaxSize().padding(32.dp)
+            modifier = Modifier.fillMaxSize()
         ) {
             Column(
                 verticalArrangement = Arrangement.spacedBy(32.dp),
@@ -79,7 +98,7 @@ object DocumentScreen : Screen {
         var page by rememberSaveable { mutableStateOf(DocumentPage.Introduction) }
         val drawerState = rememberDrawerState(DrawerValue.Closed)
         val scope = rememberCoroutineScope()
-        val (width, _) = viewModel<YuroViewModel>().screen.size
+        val (width, _) = viewModel<YuriViewModel>().screen.size
         remember(width) {
             if (width == ScreenSize.Expanded && drawerState.isOpen) {
                 scope.launch {

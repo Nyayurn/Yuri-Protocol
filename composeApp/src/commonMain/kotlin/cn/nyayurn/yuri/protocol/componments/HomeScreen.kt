@@ -1,6 +1,5 @@
 package cn.nyayurn.yuri.protocol.componments
 
-import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.core.TweenSpec
 import androidx.compose.animation.core.animateValueAsState
 import androidx.compose.material3.ButtonDefaults
@@ -17,11 +16,12 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import cn.nyayurn.yuri.protocol.DocumentScreen
 import cn.nyayurn.yuri.protocol.ScreenSize
-import cn.nyayurn.yuri.protocol.YuroViewModel
+import cn.nyayurn.yuri.protocol.YuriViewModel
 import cn.nyayurn.yuri.protocol.stringLengthConverter
 
 @Composable
-fun Title(viewModel: YuroViewModel = viewModel(), modifier: Modifier = Modifier) {
+fun Title(modifier: Modifier = Modifier) {
+    val viewModel = viewModel<YuriViewModel>()
     val (width, _) = viewModel.screen.size
     Text(
         text = animateValueAsState(
@@ -38,16 +38,13 @@ fun Title(viewModel: YuroViewModel = viewModel(), modifier: Modifier = Modifier)
 }
 
 @Composable
-fun Description(viewModel: YuroViewModel = viewModel(), modifier: Modifier = Modifier) {
-    val (width, _) = viewModel.screen.size
-    AnimatedContent(width) {
-        Text(
-            text = "THE UNIVERSAL MESSENGER PROTOCOL",
-            style = MaterialTheme.typography.bodyLarge,
-            textAlign = TextAlign.Center,
-            modifier = modifier
-        )
-    }
+fun Description(modifier: Modifier = Modifier) {
+    Text(
+        text = "THE UNIVERSAL MESSENGER PROTOCOL",
+        style = MaterialTheme.typography.bodyLarge,
+        textAlign = TextAlign.Center,
+        modifier = modifier
+    )
 }
 
 @Composable

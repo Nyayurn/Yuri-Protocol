@@ -9,14 +9,18 @@ import androidx.compose.material3.Typography
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontStyle
-import androidx.compose.ui.text.font.FontWeight
-import org.jetbrains.compose.resources.Font
+import androidx.compose.ui.text.platform.Font
+import androidx.lifecycle.viewmodel.compose.viewModel
+import cn.nyayurn.yuri.protocol.YuriViewModel
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.getFontResourceBytes
+import org.jetbrains.compose.resources.getSystemResourceEnvironment
 import yuri_protocol.composeapp.generated.resources.MiSans_Regular
 import yuri_protocol.composeapp.generated.resources.Res
 
@@ -96,45 +100,49 @@ private val darkScheme = darkColorScheme(
     surfaceContainerHighest = surfaceContainerHighestDark,
 )
 
-var darkTheme by mutableStateOf(false)
-private var inited = false
-
+@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun Theme(content: @Composable () -> Unit) {
+    val viewModel = viewModel { YuriViewModel() }
+    var inited by remember { mutableStateOf(false) }
     if (!inited) {
         inited = true
-        darkTheme = isSystemInDarkTheme()
+        viewModel.darkMode = isSystemInDarkTheme()
     }
-    val color = remember(darkTheme) {
+    val color = remember(viewModel.darkMode) {
         when {
-            darkTheme -> darkScheme
+            viewModel.darkMode -> darkScheme
             else -> lightScheme
         }
     }
-    val fontFamily = FontFamily(
-        Font(
-            resource = Res.font.MiSans_Regular,
-            weight = FontWeight.Normal,
-            style = FontStyle.Normal
+    var typography by remember { mutableStateOf<Typography?>(null) }
+    val defaultTypography = MaterialTheme.typography
+    LaunchedEffect(Unit) {
+        val fontFamily = FontFamily(
+            Font(
+                identity = "MiSans-Regular",
+                data = getFontResourceBytes(getSystemResourceEnvironment(), Res.font.MiSans_Regular)
+            )
         )
-    )
-    val typography = Typography(
-        MaterialTheme.typography.displayLarge.copy(fontFamily = fontFamily),
-        MaterialTheme.typography.displayMedium.copy(fontFamily = fontFamily),
-        MaterialTheme.typography.displaySmall.copy(fontFamily = fontFamily),
-        MaterialTheme.typography.headlineLarge.copy(fontFamily = fontFamily),
-        MaterialTheme.typography.headlineMedium.copy(fontFamily = fontFamily),
-        MaterialTheme.typography.headlineSmall.copy(fontFamily = fontFamily),
-        MaterialTheme.typography.titleLarge.copy(fontFamily = fontFamily),
-        MaterialTheme.typography.titleMedium.copy(fontFamily = fontFamily),
-        MaterialTheme.typography.titleSmall.copy(fontFamily = fontFamily),
-        MaterialTheme.typography.bodyLarge.copy(fontFamily = fontFamily),
-        MaterialTheme.typography.bodyMedium.copy(fontFamily = fontFamily),
-        MaterialTheme.typography.bodySmall.copy(fontFamily = fontFamily),
-        MaterialTheme.typography.labelLarge.copy(fontFamily = fontFamily),
-        MaterialTheme.typography.labelMedium.copy(fontFamily = fontFamily),
-        MaterialTheme.typography.labelSmall.copy(fontFamily = fontFamily)
-    )
+        typography = Typography(
+            defaultTypography.displayLarge.copy(fontFamily = fontFamily),
+            defaultTypography.displayMedium.copy(fontFamily = fontFamily),
+            defaultTypography.displaySmall.copy(fontFamily = fontFamily),
+            defaultTypography.headlineLarge.copy(fontFamily = fontFamily),
+            defaultTypography.headlineMedium.copy(fontFamily = fontFamily),
+            defaultTypography.headlineSmall.copy(fontFamily = fontFamily),
+            defaultTypography.titleLarge.copy(fontFamily = fontFamily),
+            defaultTypography.titleMedium.copy(fontFamily = fontFamily),
+            defaultTypography.titleSmall.copy(fontFamily = fontFamily),
+            defaultTypography.bodyLarge.copy(fontFamily = fontFamily),
+            defaultTypography.bodyMedium.copy(fontFamily = fontFamily),
+            defaultTypography.bodySmall.copy(fontFamily = fontFamily),
+            defaultTypography.labelLarge.copy(fontFamily = fontFamily),
+            defaultTypography.labelMedium.copy(fontFamily = fontFamily),
+            defaultTypography.labelSmall.copy(fontFamily = fontFamily)
+        )
+        viewModel.fontLoaded = true
+    }
     val colorScheme = ColorScheme(
         primary = animateColorAsState(color.primary, TweenSpec(600)).value,
         onPrimary = animateColorAsState(color.onPrimary, TweenSpec(600)).value,
@@ -185,5 +193,9 @@ fun Theme(content: @Composable () -> Unit) {
         ).value,
         surfaceTint = animateColorAsState(color.surfaceTint, TweenSpec(600)).value
     )
-    MaterialTheme(colorScheme = colorScheme, typography = typography, content = content)
+    MaterialTheme(
+        colorScheme = colorScheme,
+        typography = typography ?: defaultTypography,
+        content = content
+    )
 }
