@@ -56,7 +56,7 @@ fun Start() {
     ) {
         Text(
             text = "即刻起步",
-            style = MaterialTheme.typography.displaySmall
+            style = MaterialTheme.typography.headlineSmall
         )
     }
 }
