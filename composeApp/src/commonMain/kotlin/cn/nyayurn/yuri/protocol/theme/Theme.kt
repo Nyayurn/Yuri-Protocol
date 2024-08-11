@@ -8,12 +8,16 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Typography
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import org.jetbrains.compose.resources.Font
-import yuri_protocol.composeapp.generated.resources.MapleMono_NF_CN_Regular
+import yuri_protocol.composeapp.generated.resources.MiSans_Regular
 import yuri_protocol.composeapp.generated.resources.Res
 
 private val lightScheme = lightColorScheme(
@@ -107,104 +111,29 @@ fun Theme(content: @Composable () -> Unit) {
             else -> lightScheme
         }
     }
-    val maple = FontFamily(
-        /*Font(
-            resource = Res.font.MapleMono_NF_CN_Bold,
-            weight = FontWeight.Bold,
-            style = FontStyle.Normal
-        ),
+    val fontFamily = FontFamily(
         Font(
-            resource = Res.font.MapleMono_NF_CN_BoldItalic,
-            weight = FontWeight.Bold,
-            style = FontStyle.Italic
-        ),
-        Font(
-            resource = Res.font.MapleMono_NF_CN_ExtraBold,
-            weight = FontWeight.ExtraBold,
-            style = FontStyle.Normal
-        ),
-        Font(
-            resource = Res.font.MapleMono_NF_CN_ExtraBoldItalic,
-            weight = FontWeight.ExtraBold,
-            style = FontStyle.Italic
-        ),
-        Font(
-            resource = Res.font.MapleMono_NF_CN_ExtraLight,
-            weight = FontWeight.ExtraLight,
-            style = FontStyle.Normal
-        ),
-        Font(
-            resource = Res.font.MapleMono_NF_CN_ExtraLightItalic,
-            weight = FontWeight.ExtraLight,
-            style = FontStyle.Italic
-        ),
-        Font(
-            resource = Res.font.MapleMono_NF_CN_Italic,
-            weight = FontWeight.Normal,
-            style = FontStyle.Italic
-        ),
-        Font(
-            resource = Res.font.MapleMono_NF_CN_Light,
-            weight = FontWeight.Light,
-            style = FontStyle.Normal
-        ),
-        Font(
-            resource = Res.font.MapleMono_NF_CN_LightItalic,
-            weight = FontWeight.Light,
-            style = FontStyle.Italic
-        ),
-        Font(
-            resource = Res.font.MapleMono_NF_CN_Medium,
-            weight = FontWeight.Medium,
-            style = FontStyle.Normal
-        ),
-        Font(
-            resource = Res.font.MapleMono_NF_CN_MediumItalic,
-            weight = FontWeight.Medium,
-            style = FontStyle.Italic
-        ),*/
-        Font(
-            resource = Res.font.MapleMono_NF_CN_Regular,
+            resource = Res.font.MiSans_Regular,
             weight = FontWeight.Normal,
             style = FontStyle.Normal
-        ),
-        /*Font(
-            resource = Res.font.MapleMono_NF_CN_SemiBold,
-            weight = FontWeight.SemiBold,
-            style = FontStyle.Normal
-        ),
-        Font(
-            resource = Res.font.MapleMono_NF_CN_SemiBoldItalic,
-            weight = FontWeight.SemiBold,
-            style = FontStyle.Italic
-        ),
-        Font(
-            resource = Res.font.MapleMono_NF_CN_Thin,
-            weight = FontWeight.Thin,
-            style = FontStyle.Normal
-        ),
-        Font(
-            resource = Res.font.MapleMono_NF_CN_ThinItalic,
-            weight = FontWeight.Thin,
-            style = FontStyle.Italic
-        )*/
+        )
     )
     val typography = Typography(
-        MaterialTheme.typography.displayLarge.copy(fontFamily = maple),
-        MaterialTheme.typography.displayMedium.copy(fontFamily = maple),
-        MaterialTheme.typography.displaySmall.copy(fontFamily = maple),
-        MaterialTheme.typography.headlineLarge.copy(fontFamily = maple),
-        MaterialTheme.typography.headlineMedium.copy(fontFamily = maple),
-        MaterialTheme.typography.headlineSmall.copy(fontFamily = maple),
-        MaterialTheme.typography.titleLarge.copy(fontFamily = maple),
-        MaterialTheme.typography.titleMedium.copy(fontFamily = maple),
-        MaterialTheme.typography.titleSmall.copy(fontFamily = maple),
-        MaterialTheme.typography.bodyLarge.copy(fontFamily = maple),
-        MaterialTheme.typography.bodyMedium.copy(fontFamily = maple),
-        MaterialTheme.typography.bodySmall.copy(fontFamily = maple),
-        MaterialTheme.typography.labelLarge.copy(fontFamily = maple),
-        MaterialTheme.typography.labelMedium.copy(fontFamily = maple),
-        MaterialTheme.typography.labelSmall.copy(fontFamily = maple)
+        MaterialTheme.typography.displayLarge.copy(fontFamily = fontFamily),
+        MaterialTheme.typography.displayMedium.copy(fontFamily = fontFamily),
+        MaterialTheme.typography.displaySmall.copy(fontFamily = fontFamily),
+        MaterialTheme.typography.headlineLarge.copy(fontFamily = fontFamily),
+        MaterialTheme.typography.headlineMedium.copy(fontFamily = fontFamily),
+        MaterialTheme.typography.headlineSmall.copy(fontFamily = fontFamily),
+        MaterialTheme.typography.titleLarge.copy(fontFamily = fontFamily),
+        MaterialTheme.typography.titleMedium.copy(fontFamily = fontFamily),
+        MaterialTheme.typography.titleSmall.copy(fontFamily = fontFamily),
+        MaterialTheme.typography.bodyLarge.copy(fontFamily = fontFamily),
+        MaterialTheme.typography.bodyMedium.copy(fontFamily = fontFamily),
+        MaterialTheme.typography.bodySmall.copy(fontFamily = fontFamily),
+        MaterialTheme.typography.labelLarge.copy(fontFamily = fontFamily),
+        MaterialTheme.typography.labelMedium.copy(fontFamily = fontFamily),
+        MaterialTheme.typography.labelSmall.copy(fontFamily = fontFamily)
     )
     val colorScheme = ColorScheme(
         primary = animateColorAsState(color.primary, TweenSpec(600)).value,
